@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Glassmorphism card effect */
+.glassmorphism-card {
+  backdrop-filter: blur(10px) saturate(185%);
+  -webkit-backdrop-filter: blur(10px) saturate(185%);
+  background-color: rgba(253, 247, 250, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.grid-rows-12 {
+  grid-template-rows: repeat(12, minmax(0, 1fr));
+}
+.grid-rows-13 {
+  grid-template-rows: repeat(13, minmax(0, 1fr));
+}
+
+.row-start-12 {
+  grid-row-start: 12;
+}
+
+.row-start-13 {
+  grid-row-start: 13;
+}
+
+.video-grid {
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (max-width: 300px) {
+  .video-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+@media (min-width: 768px) and (max-width: 1536px) {
+  .video-grid {
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  }
+}
+@media (min-width: 1980px) {
+  .video-grid {
+    grid-template-columns: repeat(auto-fit, minmax(1000px, 1fr));
+  }
+}
