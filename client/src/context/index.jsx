@@ -5,17 +5,16 @@ import { Peer } from 'peerjs'
 export const SocketContext = createContext();
 
 export const SocketContextProvider = (props) => {
-  // const socket = createMemo(() => io('http://localhost:5000'));
-  // const peer = createMemo(() => new Peer());
+  const socket = createMemo(() => io('http://localhost:5000'));
+  const peer = createMemo(() => new Peer());
 
 
-  let socket, peer;
 
   const [peerID, setPeerID] = createSignal('');
 
-  // peer().on('open', id => {
-  //   setPeerID(id);
-  // })
+  peer().on('open', id => {
+    setPeerID(id);
+  })
 
   return(
     <SocketContext.Provider value={{socket, peer, peerID}}>

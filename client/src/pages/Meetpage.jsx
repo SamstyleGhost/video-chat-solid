@@ -16,6 +16,7 @@ const Meetpage = () => {
   let myVideo;
 
   const [calls, setCalls] = createSignal([]);
+  const [mystream, setMystream] = createSignal(null);
 
 
   createEffect(() => {
@@ -25,6 +26,7 @@ const Meetpage = () => {
       audio: true
     }).then(stream => {
       myVideo.srcObject = stream;
+      setMystream(stream);
 
       peer().on('call', (call) => {
         call.answer(stream);
@@ -49,7 +51,7 @@ const Meetpage = () => {
 
           <div class='w-full rounded-lg text-black relative'>
             <span class='z-20 text-black absolute'>{location.state}</span>
-            <video autoPlay muted ref={myVideo} class='w-full h-full'></video>
+            <video autoPlay ref={myVideo} class='w-full h-full'></video>
           </div>
 
           <For each={calls()}>
@@ -60,7 +62,7 @@ const Meetpage = () => {
 
         </div>
       </div>
-      <Controls />
+      <Controls stream={mystream} />
     </div>
   )
 };

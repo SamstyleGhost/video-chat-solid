@@ -1,7 +1,7 @@
 import { createSignal } from "solid-js";
 
-const [muted, setMuted] = createSignal(false);
-const [visible, setVisible] = createSignal(false);
+const [muted, setMuted] = createSignal(true);
+const [visible, setVisible] = createSignal(true);
 
 export {
   muted,

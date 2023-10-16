@@ -1,13 +1,15 @@
 import { Show } from "solid-js";
 import { muted, setMuted, visible, setVisible } from "../signals";
 
-const Controls = () => {
+const Controls = (props) => {
 
   const handleAudioChange = () => {
+    props.stream().getAudioTracks()[0].enabled = !(props.stream().getAudioTracks()[0].enabled);
     setMuted(!muted());
   };
 
   const handleVideoChange = () => {
+    props.stream().getVideoTracks()[0].enabled = !(props.stream().getVideoTracks()[0].enabled);
     setVisible(!visible());
   };
 
