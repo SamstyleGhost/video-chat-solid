@@ -43,12 +43,17 @@ io.on('connection', socket => {
     socket.on('user-ready', () => {
       socket.to(roomID).emit('new-user-joined', username, peerID);
     })
+
+    socket.on('disconnect', () => {
+      socket.to(roomID).emit('user-disconnected', username, peerID);
+    })
   })
 
   socket.on('request-member', (roomID, peerID) => {
     const username = getUsername(roomID, peerID);
     socket.emit('requested-username', username);
   })
+
 })
 
 server.listen(PORT)

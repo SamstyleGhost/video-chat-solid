@@ -16,7 +16,7 @@ const Meetpage = () => {
   let myVideo;
 
   const [calls, setCalls] = createSignal([]);
-  const [sidebar, setSidebar] = createSignal(true);
+  const [sidebar, setSidebar] = createSignal(false);
 
   createEffect(() => {
 
@@ -39,6 +39,11 @@ const Meetpage = () => {
         setCalls((prev) => [...prev, call]);
       })
       
+    })
+
+    socket().on('user-disconnected', (username, peerID) => {
+      console.log("User disconnected", username, peerID);
+      setCalls(calls().filter(call => call.peer !== peerID));
     })
 
   })

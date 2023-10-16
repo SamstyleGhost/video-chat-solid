@@ -8,8 +8,6 @@ export const SocketContextProvider = (props) => {
   const socket = createMemo(() => io('http://localhost:5000'));
   const peer = createMemo(() => new Peer());
 
-
-
   const [peerID, setPeerID] = createSignal('');
 
   peer().on('open', id => {
