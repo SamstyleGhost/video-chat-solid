@@ -1,16 +1,16 @@
 import { Show } from "solid-js";
-import { muted, setMuted, visible, setVisible } from "../signals";
+import { audible, setAudible, visible, setVisible, mystream } from "../signals";
 
-const Controls = (props) => {
+const Controls = () => {
 
   const handleAudioChange = () => {
-    props.stream().getAudioTracks()[0].enabled = !(props.stream().getAudioTracks()[0].enabled);
-    setMuted(!muted());
+    mystream().getAudioTracks()[0].enabled = !(mystream().getAudioTracks()[0].enabled);
+    setAudible(mystream().getAudioTracks()[0].enabled);
   };
 
   const handleVideoChange = () => {
-    props.stream().getVideoTracks()[0].enabled = !(props.stream().getVideoTracks()[0].enabled);
-    setVisible(!visible());
+    mystream().getVideoTracks()[0].enabled = !(mystream().getVideoTracks()[0].enabled);
+    setVisible(mystream().getVideoTracks()[0].enabled);
   };
 
   const handleExit = () => {
@@ -21,7 +21,7 @@ const Controls = (props) => {
     <div class='text-center w-full h-16 flex justify-center items-center'>
       <div class='w-1/3 flex justify-around items-center glassmorphism-card rounded-xl py-1'>
         <button onClick={() => handleAudioChange()} class='flex items-center'>
-          <Show when={muted()} fallback={<ion-icon name="mic-outline" size='large'></ion-icon>}>
+          <Show when={audible()} fallback={<ion-icon name="mic-outline" size='large'></ion-icon>}>
             <ion-icon name="mic" size='large'></ion-icon>
           </Show>
         </button>

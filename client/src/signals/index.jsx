@@ -1,11 +1,14 @@
 import { createSignal } from "solid-js";
 
-const [muted, setMuted] = createSignal(true);
+const [audible, setAudible] = createSignal(true);
 const [visible, setVisible] = createSignal(true);
+const [mystream, setMystream] = createSignal(null);
 
 export {
-  muted,
-  setMuted,
+  audible,
+  setAudible,
   visible,
-  setVisible
+  setVisible,
+  mystream,
+  setMystream
 }
