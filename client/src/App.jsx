@@ -3,7 +3,7 @@ import { Homepage, Meetpage, Trial } from './pages';
 
 const App = () => {
   return (
-    <div class='min-h-screen bg-background flex justify-center'>
+    <div class='h-screen bg-background flex justify-center'>
       <div class='w-full flex flex-col'>
         <Routes>
           <Route path='/' element={Homepage()}/>

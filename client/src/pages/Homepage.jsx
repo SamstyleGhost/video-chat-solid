@@ -13,7 +13,7 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   const handleJoinRoom = () => {
-    if(meetID()){
+    if(meetID() && username()){
       socket().emit('join-room', meetID(), peerID(), username());
       navigate(`/meet/${meetID()}`, { state: username() });
     } else {
@@ -22,11 +22,15 @@ const Homepage = () => {
   }
 
   const handleCreateRoom = () => {
-    socket().emit('create-room');
-    socket().on('room-created', roomID => {
-      socket().emit('join-room', roomID, peerID(), username());
-      navigate(`/meet/${roomID}`, { state: username() });
-    })
+    if(username()){
+      socket().emit('create-room');
+      socket().on('room-created', roomID => {
+        socket().emit('join-room', roomID, peerID(), username());
+        navigate(`/meet/${roomID}`, { state: username() });
+      })
+    } else {
+      alert('Please enter username');
+    }
   }
 
   return (
@@ -40,7 +44,7 @@ const Homepage = () => {
             <input 
             class='bg-transparent border border-text md:rounded-[10px] rounded-[5px] md:h-[40px] h-[20px] p-4' 
             type="text"
-            required
+            required={true}
             onChange={(e) => setUserName(e.target.value)}
             />
           </div>
