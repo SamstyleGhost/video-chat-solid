@@ -1,13 +1,12 @@
-import { For, createEffect, createSignal } from "solid-js";
+import { For, createEffect, createSignal, onCleanup } from "solid-js";
 import { Controls, Video, Sidebar } from "../components";
 import { useParams, useLocation } from "@solidjs/router";
 import { useSocketContext } from "../context";
-import { setMystream, visible } from '../signals';
+import { mystream, setMystream, visible } from '../signals';
 
 const Meetpage = () => {
 
   const params = useParams();
-  console.log(params.room);
 
   const location = useLocation();
 
@@ -35,7 +34,6 @@ const Meetpage = () => {
       socket().emit('user-ready');
 
       socket().on('new-user-joined', (username, peerID) => {
-        console.log("New user joined", username, peerID);
         const call = peer().call(peerID, stream).on('error', (err) => console.log(err));
         setCalls((prev) => [...prev, call]);
       })
@@ -45,6 +43,13 @@ const Meetpage = () => {
     socket().on('user-disconnected', (username, peerID) => {
       console.log("User disconnected", username, peerID);
       setCalls(calls().filter(call => call.peer !== peerID));
+    })
+
+    onCleanup(() => {
+      setCalls([]);
+      mystream().getTracks().forEach(track => {
+        track.stop();
+      });
     })
 
   })
@@ -57,8 +62,8 @@ const Meetpage = () => {
       <div class='h-full w-full flex flex-row'>
         <div class='w-full video-grid'>
           <div class='bg-secondary glassmorphism-card rounded-lg text-text flex items-center overflow-hidden'>
-            <span class='z-20 absolute font-medium top-2 left-2' classList={{'bg-primary px-2 py-1 rounded-md text-black': visible(), 'text-text': !visible()}}>{location.state}</span>
-            <video autoPlay ref={myVideo} class='absolute w-full h-full object-cover rounded-lg'></video>
+            <span class='z-20 absolute font-medium top-2 left-2' classList={{'text-black': visible(), 'text-text': !visible()}}>{location.state}</span>
+            <video autoPlay muted ref={myVideo} class='absolute w-full h-full object-cover rounded-lg'></video>
           </div>  
 
           <For each={calls()}>

@@ -12,17 +12,11 @@ const PORT = process.env.PORT;
 
 const roomMembers = {};
 
-function getUsername(roomID, userID) {
-  const roomData = roomMembers[roomID];
-  if (roomData) {
-    const userObject = roomData.find(user => user.peerID === userID);
-    if (userObject) {
-      return userObject.username;
-    } else {
-      return "User not found in this room.";
-    }
+function removeUser(roomID, userID) {
+  if (roomMembers.hasOwnProperty(roomID)) {
+    roomMembers[roomID] = roomMembers[roomID].filter(user => user.peerID !== userID);
   } else {
-    return "Room not found.";
+    console.log(`Room with ID ${roomID} not found.`);
   }
 }
 
@@ -36,8 +30,6 @@ io.on('connection', socket => {
   socket.on('join-room', (roomID, peerID, username) => {
     socket.join(roomID);
 
-    console.log("Username: " + username + " with id: " + peerID);
-
     roomMembers[roomID].push({peerID: peerID, username: username});
 
     socket.on('user-ready', () => {
@@ -45,13 +37,13 @@ io.on('connection', socket => {
     })
 
     socket.on('disconnect', () => {
+      removeUser(roomID, peerID);
       socket.to(roomID).emit('user-disconnected', username, peerID);
     })
   })
 
-  socket.on('request-member', (roomID, peerID) => {
-    const username = getUsername(roomID, peerID);
-    socket.emit('requested-username', username);
+  socket.on('request-members', (roomID) => {
+    socket.emit('requested-members-response', roomMembers[roomID]);
   })
 
 })

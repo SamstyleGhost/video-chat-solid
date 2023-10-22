@@ -1,7 +1,16 @@
 import { Show } from "solid-js";
+import { useParams, useNavigate } from "@solidjs/router";
 import { audible, setAudible, visible, setVisible, mystream } from "../signals";
+import { useSocketContext } from "../context";
+import copy from 'clipboard-copy';
 
 const Controls = () => {
+
+  const params = useParams();
+
+  const navigate = useNavigate();
+
+  const { socket } = useSocketContext();
 
   const handleAudioChange = () => {
     mystream().getAudioTracks()[0].enabled = !(mystream().getAudioTracks()[0].enabled);
@@ -14,12 +23,23 @@ const Controls = () => {
   };
 
   const handleExit = () => {
-    console.log("User wants to exit");
+    console.log("Exittingg");
+    socket().disconnect();
+    console.log("Disconnected");
+    navigate('/');
+  }
+
+  const handleMeetLinkCopy = () => {
+    copy(params.room);
+    alert('Meeting link copied');
   }
 
   return (
-    <div class='text-center w-full h-16 flex justify-center items-center'>
-      <div class='w-1/3 flex justify-around items-center glassmorphism-card rounded-xl py-1'>
+    <div class='text-center w-full h-16 flex justify-center items-center relative'>
+      <button onClick={handleMeetLinkCopy} className="hidden md:block absolute left-0 top-4">
+        {params.room}
+      </button>
+      <div class='w-[300px] flex justify-around items-center glassmorphism-card rounded-xl py-1 flex-shrink-0'>
         <button onClick={() => handleAudioChange()} class='flex items-center'>
           <Show when={audible()} fallback={<ion-icon name="mic-outline" size='large'></ion-icon>}>
             <ion-icon name="mic" size='large'></ion-icon>
@@ -30,7 +50,7 @@ const Controls = () => {
             <ion-icon name="videocam" size='large'></ion-icon>
           </Show>
         </button>
-        <button onClick={() => handleExit()} class='flex items-center'><ion-icon name="exit" size='large'></ion-icon></button>
+        <button onClick={() => handleExit()} class='flex items-center'><ion-icon name="exit" size='large' color='red'></ion-icon></button>
       </div>
     </div>
   )
