@@ -1,7 +1,6 @@
 import { Show } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 import { audible, setAudible, visible, setVisible, mystream } from "../signals";
-import { useSocketContext } from "../context";
 import copy from 'clipboard-copy';
 
 const Controls = () => {
@@ -9,8 +8,6 @@ const Controls = () => {
   const params = useParams();
 
   const navigate = useNavigate();
-
-  const { socket } = useSocketContext();
 
   const handleAudioChange = () => {
     mystream().getAudioTracks()[0].enabled = !(mystream().getAudioTracks()[0].enabled);
@@ -23,9 +20,6 @@ const Controls = () => {
   };
 
   const handleExit = () => {
-    console.log("Exittingg");
-    socket().disconnect();
-    console.log("Disconnected");
     navigate('/');
   }
 
