@@ -79,3 +79,16 @@ video {
 .chatbox-height {
   height: calc(100vh - 88px);
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #fdf7fa;
+  border-radius: 20px;
+}

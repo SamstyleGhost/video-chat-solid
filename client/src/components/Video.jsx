@@ -1,7 +1,9 @@
 import { createEffect, createSignal } from "solid-js";
 import { useSocketContext } from "../context";
 import { useParams } from "@solidjs/router";
-import { visible } from '../signals';
+
+import { setUsers } from '../signals';
+import { getUserName } from "../lib";
 
 const Video = (props) => {
 
@@ -9,16 +11,9 @@ const Video = (props) => {
 
   const { socket } = useSocketContext();
 
-  const [users, setUsers] = createSignal([]);
   const [callerName, setCallerName] = createSignal('');
 
   const params = useParams();
-
-  const getUserName = (id) => {
-    const userName = users().find(user => user.peerID === id);
-
-    return userName.username;
-  }
 
   createEffect(() => {
     props.call.on('stream', stream => {

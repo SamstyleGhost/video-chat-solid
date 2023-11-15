@@ -1,8 +1,9 @@
 import { For, createEffect, createSignal, onCleanup } from "solid-js";
 import { Controls, Video, Sidebar } from "../components";
-import { useParams, useLocation } from "@solidjs/router";
+import { useLocation } from "@solidjs/router";
 import { useSocketContext } from "../context";
-import { mystream, setMystream, sidebar } from '../signals';
+import { mystream, setMystream, sidebar, setChats } from '../signals';
+import { getUserName } from "../lib";
 
 const Meetpage = () => {
 
@@ -35,7 +36,12 @@ const Meetpage = () => {
         setCalls((prev) => [...prev, call]);
       })
       
+      socket().on('chat-incoming', (sender, chat) => {
+        console.log("Chat is: ", chat, sender);
+        setChats(prev => [...prev, { sender: getUserName(sender), chat: chat }]);
+      })
     })
+
 
     socket().on('user-disconnected', (username, peerID) => {
       console.log("User disconnected", username, peerID);
@@ -47,6 +53,7 @@ const Meetpage = () => {
       mystream().getTracks().forEach(track => {
         track.stop();
       });
+      socket().off('chat-incoming');
     })
 
   })

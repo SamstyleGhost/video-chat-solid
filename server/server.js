@@ -25,7 +25,7 @@ io.on('connection', socket => {
     const roomID = uuidV4();
     roomMembers[roomID] = [];
     socket.emit('room-created', roomID);
-  })
+  });
 
   socket.on('join-room', (roomID, peerID, username) => {
     socket.join(roomID);
@@ -34,17 +34,22 @@ io.on('connection', socket => {
 
     socket.on('user-ready', () => {
       socket.to(roomID).emit('new-user-joined', username, peerID);
-    })
+    });
 
     socket.on('disconnect', () => {
       removeUser(roomID, peerID);
       socket.to(roomID).emit('user-disconnected', username, peerID);
-    })
-  })
+    });
+  });
 
   socket.on('request-members', (roomID) => {
     socket.emit('requested-members-response', roomMembers[roomID]);
-  })
+  });
+
+  socket.on('user-chat-message', (roomID, peerID, message) => {
+    console.log('User ', peerID, ' of room ', roomID, ' wants to send message ', message);
+    socket.to(roomID).emit('chat-incoming', peerID, message);
+  });
 
 })
 
