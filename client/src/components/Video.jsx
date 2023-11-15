@@ -36,7 +36,7 @@ const Video = (props) => {
 
   return (
     <div class='bg-secondary glassmorphism-card rounded-lg text-text flex items-center overflow-hidden'>
-      <span  class='z-20 absolute font-medium top-2 left-2' classList={{'text-black': visible(), 'text-text': !visible()}}>{callerName()}</span>
+      <span  class='z-20 absolute font-medium top-2 left-2 text-text'>{callerName()}</span>
       <video autoPlay ref={userVideo} class='absolute w-full h-full object-cover rounded-lg'></video>
     </div>
   )

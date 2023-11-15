@@ -62,7 +62,7 @@ const Meetpage = () => {
       <div class='h-full w-full flex flex-row'>
         <div class='w-full video-grid'>
           <div class='bg-secondary glassmorphism-card rounded-lg text-text flex items-center overflow-hidden'>
-            <span class='z-20 absolute font-medium top-2 left-2' classList={{'text-black': visible(), 'text-text': !visible()}}>{location.state}</span>
+            <span class='z-20 absolute font-medium top-2 left-2 text-text'>{location.state}</span>
             <video autoPlay muted ref={myVideo} class='absolute w-full h-full object-cover rounded-lg'></video>
           </div>  
 

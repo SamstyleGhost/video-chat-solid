@@ -51,3 +51,18 @@ video {
   width: 100% !important;
   height: auto !important;
 }
+
+.animate-popup {
+  animation-duration: 1s;
+  animation-name: slidein;
+}
+
+@keyframes slidein {
+  from {
+    top: 0;
+  }
+
+  to {
+    top: -48px;
+  }
+}

@@ -1,4 +1,4 @@
-import { Show } from "solid-js";
+import { Show, createEffect, createSignal } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 import { audible, setAudible, visible, setVisible, mystream } from "../signals";
 import copy from 'clipboard-copy';
@@ -8,6 +8,8 @@ const Controls = () => {
   const params = useParams();
 
   const navigate = useNavigate();
+
+  const [popup, setPopup] = createSignal(false);
 
   const handleAudioChange = () => {
     mystream().getAudioTracks()[0].enabled = !(mystream().getAudioTracks()[0].enabled);
@@ -25,7 +27,9 @@ const Controls = () => {
 
   const handleMeetLinkCopy = () => {
     copy(params.room);
-    alert('Meeting link copied');
+
+    setPopup(true);
+    setTimeout(() => setPopup(false), 1000);
   }
 
   return (
@@ -33,6 +37,11 @@ const Controls = () => {
       <button onClick={handleMeetLinkCopy} className="hidden md:block absolute left-0 top-4">
         {params.room}
       </button>
+      <Show when={popup()}>
+        <div class="absolute left-2 animate-popup bg-accent opacity-80 px-4 py-2 rounded-lg">
+          <span class='text-text'>Meeting link copied</span>
+        </div>
+      </Show>
       <div class='w-[300px] flex justify-around items-center glassmorphism-card rounded-xl py-1 flex-shrink-0'>
         <button onClick={() => handleAudioChange()} class='flex items-center'>
           <Show when={audible()} fallback={<ion-icon name="mic-outline" size='large'></ion-icon>}>
