@@ -2,11 +2,9 @@ import { For, createEffect, createSignal, onCleanup } from "solid-js";
 import { Controls, Video, Sidebar } from "../components";
 import { useParams, useLocation } from "@solidjs/router";
 import { useSocketContext } from "../context";
-import { mystream, setMystream, visible } from '../signals';
+import { mystream, setMystream, sidebar } from '../signals';
 
 const Meetpage = () => {
-
-  const params = useParams();
 
   const location = useLocation();
 
@@ -15,7 +13,6 @@ const Meetpage = () => {
   let myVideo;
 
   const [calls, setCalls] = createSignal([]);
-  const [sidebar, setSidebar] = createSignal(false);
 
   createEffect(() => {
 

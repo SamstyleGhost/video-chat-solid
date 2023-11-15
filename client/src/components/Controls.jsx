@@ -1,6 +1,6 @@
-import { Show, createEffect, createSignal } from "solid-js";
+import { Show, createSignal } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
-import { audible, setAudible, visible, setVisible, mystream } from "../signals";
+import { audible, setAudible, visible, setVisible, mystream, sidebar, setSidebar } from "../signals";
 import copy from 'clipboard-copy';
 
 const Controls = () => {
@@ -21,6 +21,10 @@ const Controls = () => {
     setVisible(mystream().getVideoTracks()[0].enabled);
   };
 
+  const handleSidebar = () => {
+    setSidebar(prev => !prev);
+  }
+
   const handleExit = () => {
     navigate('/');
   }
@@ -34,7 +38,7 @@ const Controls = () => {
 
   return (
     <div class='text-center w-full h-16 flex justify-center items-center relative'>
-      <button onClick={handleMeetLinkCopy} className="hidden md:block absolute left-0 top-4">
+      <button onClick={handleMeetLinkCopy} class="hidden md:block absolute left-0 top-4">
         {params.room}
       </button>
       <Show when={popup()}>
@@ -42,19 +46,34 @@ const Controls = () => {
           <span class='text-text'>Meeting link copied</span>
         </div>
       </Show>
+
       <div class='w-[300px] flex justify-around items-center glassmorphism-card rounded-xl py-1 flex-shrink-0'>
         <button onClick={() => handleAudioChange()} class='flex items-center'>
           <Show when={audible()} fallback={<ion-icon name="mic-outline" size='large'></ion-icon>}>
             <ion-icon name="mic" size='large'></ion-icon>
           </Show>
         </button>
+
         <button onClick={() => handleVideoChange()} class='flex items-center'>
           <Show when={visible()} fallback={<ion-icon name="videocam-outline" size='large'></ion-icon>}>
             <ion-icon name="videocam" size='large'></ion-icon>
           </Show>
         </button>
+
+        <button onClick={() => handleSidebar()} class="md:hidden flex items-center">
+          <Show when={sidebar()} fallback={<ion-icon name="chatbox" size='large'></ion-icon>}>
+            <ion-icon name="chatbox-outline" size='large'></ion-icon>
+          </Show>
+        </button>
+
         <button onClick={() => handleExit()} class='flex items-center'><ion-icon name="exit" size='large' color='red'></ion-icon></button>
+
       </div>
+      <button onClick={() => handleSidebar()} class="hidden md:block absolute right-0 top-4">
+        <Show when={sidebar()} fallback={<ion-icon name="chatbox" size='large'></ion-icon>}>
+          <ion-icon name="chatbox-outline" size='large'></ion-icon>
+        </Show>
+      </button>
     </div>
   )
 };

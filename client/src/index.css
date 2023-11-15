@@ -10,6 +10,13 @@
   border: 1px solid rgba(255, 255, 255, 0.125);
 }
 
+.glassmorphism-sidebar {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(0, 42, 50, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
 .grid-rows-12 {
   grid-template-rows: repeat(12, minmax(0, 1fr));
 }
@@ -65,4 +72,10 @@ video {
   to {
     top: -48px;
   }
+}
+
+/* 16px + 40px + 32px */
+
+.chatbox-height {
+  height: calc(100vh - 88px);
 }
