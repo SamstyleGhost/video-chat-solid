@@ -37,7 +37,6 @@ const Meetpage = () => {
       })
       
       socket().on('chat-incoming', (sender, chat) => {
-        console.log("Chat is: ", chat, sender);
         setChats(prev => [...prev, { sender: getUserName(sender), chat: chat }]);
       })
     })

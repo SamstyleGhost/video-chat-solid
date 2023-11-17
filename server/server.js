@@ -47,7 +47,6 @@ io.on('connection', socket => {
   });
 
   socket.on('user-chat-message', (roomID, peerID, message) => {
-    console.log('User ', peerID, ' of room ', roomID, ' wants to send message ', message);
     socket.to(roomID).emit('chat-incoming', peerID, message);
   });
 

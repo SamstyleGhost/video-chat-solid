@@ -1,4 +1,4 @@
-import { For, createEffect, createSignal } from "solid-js";
+import { For, createSignal } from "solid-js";
 import { useSocketContext } from "../context";
 import { useParams } from "@solidjs/router";
 
@@ -33,9 +33,9 @@ const Sidebar = () => {
   }
 
   return (
-    <div class='h-[90vh] md:h-[91vh] w-full md:w-1/4 fixed z-10 top-4 right-0 animate-slide-in glassmorphism-sidebar rounded-l-lg max-md:rounded-r-lg p-4 flex flex-col justify-start'>
+    <div class='h-[90vh] md:h-[91vh] w-full md:w-1/3 fixed z-10 top-4 right-0 animate-slide-in glassmorphism-sidebar rounded-l-lg max-md:rounded-r-lg p-4 flex flex-col justify-start'>
       <div class='relative flex justify-between items-center h-10'>
-        <button onClick={() => handleMeetLinkCopy()} class="truncate w-3/4 hover:underline underline-offset-2">
+        <button onClick={() => handleMeetLinkCopy()} class="truncate w-3/4 hover:underline underline-offset-2 flex justify-start items-center">
           {params.room}
         </button>
         <button class='flex items-center' onClick={() => handleSidebar()}><ion-icon name="close" size='large'></ion-icon></button>
