@@ -21,6 +21,7 @@ function removeUser(roomID, userID) {
 }
 
 io.on('connection', socket => {
+
   socket.on('create-room', () => {
     const roomID = uuidV4();
     roomMembers[roomID] = [];
